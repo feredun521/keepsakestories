@@ -123,15 +123,15 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    nav { display: flex; gap: 0.5rem; }
+    nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     nav button {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       color: rgba(255,255,255,0.7);
-      padding: 0.6rem 1.25rem;
+      padding: 0.6rem 1rem;
       border-radius: 2rem;
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s;
@@ -167,7 +167,7 @@
     /* Home page */
     .hero {
       text-align: center;
-      padding: 4rem 1rem;
+      padding: 3rem 1rem;
       max-width: 700px;
       margin: 0 auto;
     }
@@ -189,7 +189,7 @@
       50% { box-shadow: 0 10px 60px var(--glow), 0 0 80px var(--glow-accent); }
     }
     .hero h1 {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
       font-weight: 800;
       margin-bottom: 1rem;
       background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, var(--accent) 100%);
@@ -200,15 +200,15 @@
     }
     .hero p {
       color: rgba(255,255,255,0.6);
-      font-size: 1.15rem;
-      margin-bottom: 2.5rem;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
     }
     
     .hero-features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 1rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       text-align: left;
     }
     .feature-card {
@@ -230,12 +230,12 @@
       display: block;
     }
     .feature-card h3 {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #fff;
       margin-bottom: 0.25rem;
     }
     .feature-card p {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: rgba(255,255,255,0.5);
       margin: 0;
     }
@@ -302,6 +302,16 @@
     .btn-success { 
       background: linear-gradient(135deg, var(--success), #20c997);
       color: #fff;
+    }
+    .btn-nfc {
+      background: linear-gradient(135deg, #00d4aa, #00b894);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4);
+    }
+    .btn-scan {
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(232, 67, 147, 0.4);
     }
 
     /* Create page */
@@ -456,6 +466,59 @@
     .pin-field .field-hint {
       text-align: center;
       margin-top: 0.75rem;
+    }
+
+    /* NFC field */
+    .nfc-field {
+      margin-bottom: 1.25rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, #e8fff8, #d0fff0);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+    }
+    .nfc-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nfc-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.75rem;
+    }
+    .nfc-status .icon {
+      font-size: 1.5rem;
+    }
+    .nfc-status .text {
+      flex: 1;
+    }
+    .nfc-status .text strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+    .nfc-status .text span {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .nfc-id-display {
+      font-family: 'SF Mono', Monaco, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #00b894;
+      background: rgba(0, 184, 148, 0.1);
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      text-align: center;
+      word-break: break-all;
     }
 
     /* Photo section */
@@ -810,7 +873,7 @@
       border: 1px solid rgba(255,255,255,0.1);
       padding: 1.25rem 1.75rem;
       border-radius: var(--radius);
-      min-width: 120px;
+      min-width: 100px;
     }
     .stat-value {
       font-size: 2rem;
@@ -821,7 +884,7 @@
       background-clip: text;
     }
     .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: rgba(255,255,255,0.6);
     }
 
@@ -884,17 +947,21 @@
       display: flex;
       gap: 0.4rem;
       z-index: 2;
+      flex-wrap: wrap;
     }
     .badge {
       background: rgba(0,0,0,0.7);
       color: #fff;
       padding: 0.3rem 0.6rem;
       border-radius: 2rem;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       gap: 0.25rem;
+    }
+    .badge.nfc {
+      background: rgba(0, 184, 148, 0.9);
     }
     .keepsake-info {
       padding: 1.25rem;
@@ -944,6 +1011,380 @@
     }
     .empty-state p {
       color: rgba(255,255,255,0.5);
+    }
+
+    /* Scan Page */
+    .scan-container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .scan-hero {
+      padding: 2rem 0;
+    }
+    .scan-hero h2 {
+      font-size: 1.75rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .scan-hero p {
+      color: rgba(255,255,255,0.6);
+    }
+    .scan-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .scan-option {
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      text-align: left;
+    }
+    .scan-option:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+    .scan-option .icon-wrap {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .scan-option.nfc .icon-wrap {
+      background: linear-gradient(135deg, #00d4aa, #00b894);
+    }
+    .scan-option.visual .icon-wrap {
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+    }
+    .scan-option.code .icon-wrap {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    .scan-option .info h3 {
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+    .scan-option .info p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin: 0;
+    }
+    .scan-option .status {
+      margin-left: auto;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      background: #e0e0e0;
+      color: var(--text-light);
+    }
+    .scan-option .status.available {
+      background: rgba(56, 217, 169, 0.2);
+      color: #00b894;
+    }
+    .scan-option .status.unavailable {
+      background: rgba(255, 107, 107, 0.2);
+      color: var(--danger);
+    }
+
+    /* Visual scan modal */
+    .visual-scan-modal {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+    }
+    .visual-scan-modal.active { display: flex; }
+    .visual-scan-header {
+      padding: 1rem;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .visual-scan-header h3 {
+      color: #fff;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .visual-scan-video-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .visual-scan-modal video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .scan-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .scan-frame {
+      width: 250px;
+      height: 250px;
+      border: 3px solid rgba(255,255,255,0.5);
+      border-radius: var(--radius);
+      position: relative;
+    }
+    .scan-frame::before,
+    .scan-frame::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .scan-frame::before {
+      top: -3px;
+      left: -3px;
+      border-width: 3px 0 0 3px;
+      border-radius: var(--radius-sm) 0 0 0;
+    }
+    .scan-frame::after {
+      bottom: -3px;
+      right: -3px;
+      border-width: 0 3px 3px 0;
+      border-radius: 0 0 var(--radius-sm) 0;
+    }
+    .scan-instruction {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+    }
+    .visual-scan-controls {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      background: rgba(0,0,0,0.9);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .scan-btn-capture {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #fff;
+    }
+    .scan-btn-capture:hover {
+      transform: scale(1.05);
+    }
+    .scan-btn-capture:active { transform: scale(0.95); }
+    
+    /* Matching results */
+    .matching-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 600;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .matching-overlay.active { display: flex; }
+    .matching-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .matching-text {
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .matching-results {
+      width: 100%;
+      max-width: 400px;
+      max-height: 60vh;
+      overflow-y: auto;
+      margin-top: 1.5rem;
+    }
+    .match-item {
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .match-item:hover {
+      transform: translateX(5px);
+    }
+    .match-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+    }
+    .match-item .no-img {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      background: #e0e5ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .match-item .info {
+      flex: 1;
+    }
+    .match-item .info h4 {
+      font-size: 1rem;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+    .match-item .info p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin: 0;
+    }
+    .match-score {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, var(--success), #20c997);
+      color: #fff;
+    }
+    .no-matches {
+      text-align: center;
+      padding: 2rem;
+    }
+    .no-matches .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .no-matches p {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* NFC scan modal */
+    .nfc-scan-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .nfc-scan-modal.active { display: flex; }
+    .nfc-scan-animation {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .nfc-phone {
+      font-size: 5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .nfc-waves {
+      position: absolute;
+      inset: 0;
+    }
+    .nfc-wave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      border: 3px solid rgba(0, 212, 170, 0.5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: nfc-pulse 2s infinite ease-out;
+    }
+    .nfc-wave:nth-child(2) { animation-delay: 0.5s; }
+    .nfc-wave:nth-child(3) { animation-delay: 1s; }
+    @keyframes nfc-pulse {
+      0% {
+        width: 80px;
+        height: 80px;
+        opacity: 1;
+      }
+      100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+      }
+    }
+    .nfc-scan-text {
+      color: #fff;
+      font-size: 1.25rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .nfc-scan-hint {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .nfc-scan-close {
+      padding: 0.75rem 2rem;
     }
 
     /* Detail Modal with Flip Card */
@@ -1067,10 +1508,24 @@
       display: inline-block;
       margin: 0.75rem auto;
     }
+    .card-front-badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .card-front-badges .badge {
+      background: rgba(0,0,0,0.1);
+      color: var(--text);
+    }
+    .card-front-badges .badge.nfc {
+      background: rgba(0, 184, 148, 0.2);
+      color: #00b894;
+    }
     .card-front-hint {
       font-size: 0.85rem;
       color: var(--text-light);
-      margin-top: 1rem;
+      margin-top: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1156,19 +1611,19 @@
     
     .card-back-actions {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 0.5rem;
       padding: 1rem 1.25rem;
       background: #f8f9fa;
       border-top: 1px solid var(--border);
     }
     .detail-action-btn {
-      padding: 0.6rem;
+      padding: 0.6rem 0.25rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-sm);
       background: #fff;
       font: inherit;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
@@ -1186,6 +1641,11 @@
     .detail-action-btn.danger:hover { 
       background: #fff0f0;
       border-color: var(--danger);
+    }
+    .detail-action-btn.nfc-btn { color: #00b894; }
+    .detail-action-btn.nfc-btn:hover {
+      background: #e8fff8;
+      border-color: #00b894;
     }
 
     /* Modal */
@@ -1380,16 +1840,16 @@
     /* Responsive */
     @media (max-width: 600px) {
       header { padding: 0.75rem 1rem; }
-      .logo { font-size: 1.1rem; }
-      .logo-icon { width: 36px; height: 36px; }
-      nav button { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+      .logo { font-size: 1rem; }
+      .logo-icon { width: 32px; height: 32px; font-size: 1rem; }
+      nav button { padding: 0.5rem 0.6rem; font-size: 0.75rem; }
       main { padding: 1rem; }
-      .hero { padding: 2rem 0.5rem; }
-      .hero h1 { font-size: 1.75rem; }
-      .hero-icon { width: 80px; height: 80px; font-size: 2.5rem; }
+      .hero { padding: 1.5rem 0.5rem; }
+      .hero h1 { font-size: 1.5rem; }
+      .hero-icon { width: 70px; height: 70px; font-size: 2rem; }
       .keepsake-grid { grid-template-columns: 1fr; }
       .field-row { grid-template-columns: 1fr; }
-      .card-back-actions { grid-template-columns: repeat(4, 1fr); }
+      .card-back-actions { grid-template-columns: repeat(5, 1fr); }
       .flip-card-container {
         max-width: 340px;
       }
@@ -1397,6 +1857,14 @@
         width: 45px;
         height: 55px;
         font-size: 1.25rem;
+      }
+      .scan-option {
+        flex-direction: column;
+        text-align: center;
+      }
+      .scan-option .status {
+        margin-left: 0;
+        margin-top: 0.5rem;
       }
     }
   </style>
@@ -1419,6 +1887,7 @@
     <nav>
       <button id="navHome" class="active" onclick="showPage('home')">Home</button>
       <button id="navCreate" onclick="showPage('create')">Create</button>
+      <button id="navScan" onclick="showPage('scan')">Scan</button>
       <button id="navLibrary" onclick="showPage('library')">Library</button>
     </nav>
   </header>
@@ -1429,28 +1898,28 @@
       <div class="hero">
         <div class="hero-icon">📦</div>
         <h1>Stories behind the things you treasure</h1>
-        <p>Attach audio and video memories to your keepsakes. Scan a QR code years later to hear the story again.</p>
+        <p>Attach audio and video memories to your keepsakes. Tap NFC or scan to hear the story.</p>
         
         <div class="hero-features">
           <div class="feature-card">
+            <span class="icon">📡</span>
+            <h3>NFC Tags</h3>
+            <p>Tap your phone to any tagged item</p>
+          </div>
+          <div class="feature-card">
+            <span class="icon">📷</span>
+            <h3>Visual Scan</h3>
+            <p>Point camera at item to find it</p>
+          </div>
+          <div class="feature-card">
             <span class="icon">🎤</span>
             <h3>Voice Stories</h3>
-            <p>Record in your own voice or a loved one's</p>
+            <p>Record in your own voice</p>
           </div>
           <div class="feature-card">
             <span class="icon">🎬</span>
-            <h3>Video Memories</h3>
-            <p>Capture video clips to preserve moments</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">📱</span>
-            <h3>QR Codes</h3>
-            <p>Link each keepsake to a scannable code</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">💾</span>
-            <h3>Backup &amp; Share</h3>
-            <p>Export your collection to keep it safe</p>
+            <h3>Video</h3>
+            <p>Capture video memories</p>
           </div>
         </div>
 
@@ -1458,8 +1927,8 @@
           <button class="btn btn-primary" onclick="showPage('create')">
             ✨ Create your first keepsake
           </button>
-          <button class="btn btn-secondary" onclick="showPage('library')">
-            📚 View your library
+          <button class="btn btn-scan" onclick="showPage('scan')">
+            📷 Scan to find a keepsake
           </button>
         </div>
       </div>
@@ -1477,6 +1946,7 @@
           <div class="step active" data-step="1"></div>
           <div class="step" data-step="2"></div>
           <div class="step" data-step="3"></div>
+          <div class="step" data-step="4"></div>
         </div>
 
         <div class="form-card">
@@ -1534,10 +2004,10 @@
             </div>
           </div>
 
-          <!-- Step 2: Photo -->
+          <!-- Step 2: Photo & NFC -->
           <div class="form-step" data-step="2">
             <h3>📷 Add a Photo</h3>
-            <p>Take a picture of your keepsake</p>
+            <p>Take a picture of your keepsake (used for visual scanning too!)</p>
 
             <div class="photo-section">
               <div class="photo-options" id="photoOptions">
@@ -1556,6 +2026,22 @@
                 <img id="photoPreview" alt="Keepsake photo">
                 <button class="photo-remove" onclick="clearPhoto()">×</button>
               </div>
+            </div>
+
+            <div class="nfc-field" id="nfcFieldSection">
+              <label>📡 Link NFC Tag (optional)</label>
+              <div class="nfc-status" id="nfcStatus">
+                <span class="icon">📡</span>
+                <div class="text">
+                  <strong id="nfcStatusText">No NFC tag linked</strong>
+                  <span id="nfcStatusHint">Tap button below to scan an NFC tag</span>
+                </div>
+              </div>
+              <div class="nfc-id-display" id="nfcIdDisplay" style="display: none;"></div>
+              <button type="button" class="btn btn-nfc btn-sm" onclick="scanNfcForCreate()" id="btnScanNfc" style="width: 100%; margin-top: 0.5rem;">
+                📡 Scan NFC Tag
+              </button>
+              <div class="field-hint" style="margin-top: 0.5rem;">Place an NFC sticker on your keepsake, then scan it here to link them</div>
             </div>
           </div>
 
@@ -1613,6 +2099,16 @@
             </div>
           </div>
 
+          <!-- Step 4: Review -->
+          <div class="form-step" data-step="4">
+            <h3>✅ Review &amp; Save</h3>
+            <p>Review your keepsake before saving</p>
+            
+            <div id="reviewContent" style="background: #f8f9fa; border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem;">
+              <!-- Filled dynamically -->
+            </div>
+          </div>
+
           <!-- Form Navigation -->
           <div class="form-nav">
             <button class="btn btn-secondary" id="btnPrev" onclick="prevStep()" style="visibility: hidden;">
@@ -1621,6 +2117,45 @@
             <button class="btn btn-primary" id="btnNext" onclick="nextStep()">
               Next →
             </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scan Page -->
+    <section id="pageScan" class="page">
+      <div class="scan-container">
+        <div class="scan-hero">
+          <h2>Find Your Keepsake</h2>
+          <p>Choose how you want to identify your item</p>
+        </div>
+
+        <div class="scan-options">
+          <div class="scan-option nfc" onclick="startNfcScan()">
+            <div class="icon-wrap">📡</div>
+            <div class="info">
+              <h3>NFC Tap</h3>
+              <p>Hold your phone near the NFC tag on your item</p>
+            </div>
+            <span class="status" id="nfcAvailability">Checking...</span>
+          </div>
+
+          <div class="scan-option visual" onclick="startVisualScan()">
+            <div class="icon-wrap">📷</div>
+            <div class="info">
+              <h3>Visual Scan</h3>
+              <p>Point your camera at the item to find matches</p>
+            </div>
+            <span class="status available">Available</span>
+          </div>
+
+          <div class="scan-option code" onclick="openCodeLookup()">
+            <div class="icon-wrap">🔤</div>
+            <div class="info">
+              <h3>Enter Code</h3>
+              <p>Type the 6-character code from the QR label</p>
+            </div>
+            <span class="status available">Available</span>
           </div>
         </div>
       </div>
@@ -1640,9 +2175,6 @@
           <button class="btn btn-sm btn-secondary" onclick="openExportModal()">
             📤 Export
           </button>
-          <button class="btn btn-sm btn-secondary" onclick="openScanModal()">
-            🔍 Lookup
-          </button>
         </div>
       </div>
 
@@ -1650,6 +2182,10 @@
         <div class="stat">
           <div class="stat-value" id="statTotal">0</div>
           <div class="stat-label">Keepsakes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="statNfc">0</div>
+          <div class="stat-label">NFC Tagged</div>
         </div>
         <div class="stat">
           <div class="stat-value" id="statAudio">0</div>
@@ -1690,6 +2226,47 @@
     </div>
   </div>
 
+  <!-- Visual Scan Modal -->
+  <div class="visual-scan-modal" id="visualScanModal">
+    <div class="visual-scan-header">
+      <h3>📷 Visual Scan</h3>
+      <button class="camera-close-btn" onclick="closeVisualScan()">×</button>
+    </div>
+    <div class="visual-scan-video-container">
+      <video id="visualScanVideo" autoplay="" playsinline=""></video>
+      <div class="scan-overlay">
+        <div class="scan-frame"></div>
+      </div>
+      <div class="scan-instruction">Point at your keepsake</div>
+    </div>
+    <div class="visual-scan-controls">
+      <button class="scan-btn-capture" onclick="captureForVisualMatch()" title="Capture &amp; Search">🔍</button>
+    </div>
+  </div>
+
+  <!-- NFC Scan Modal -->
+  <div class="nfc-scan-modal" id="nfcScanModal">
+    <div class="nfc-scan-animation">
+      <div class="nfc-waves">
+        <div class="nfc-wave"></div>
+        <div class="nfc-wave"></div>
+        <div class="nfc-wave"></div>
+      </div>
+      <div class="nfc-phone">📱</div>
+    </div>
+    <div class="nfc-scan-text">Ready to Scan</div>
+    <div class="nfc-scan-hint">Hold your phone near the NFC tag on your keepsake</div>
+    <button class="btn btn-secondary nfc-scan-close" onclick="closeNfcScan()">Cancel</button>
+  </div>
+
+  <!-- Matching Overlay -->
+  <div class="matching-overlay" id="matchingOverlay">
+    <div class="matching-spinner" id="matchingSpinner"></div>
+    <div class="matching-text" id="matchingText">Analyzing image...</div>
+    <div class="matching-results" id="matchingResults"></div>
+    <button class="btn btn-secondary" onclick="closeMatchingOverlay()" style="margin-top: 1rem;">Close</button>
+  </div>
+
   <!-- Detail Modal with Flip Card -->
   <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()">
     <div class="flip-card-container" onclick="event.stopPropagation()">
@@ -1703,6 +2280,7 @@
           <div class="card-front-info">
             <h2 id="cardFrontName">Item Name</h2>
             <div class="card-front-code" id="cardFrontCode">ABC123</div>
+            <div class="card-front-badges" id="cardFrontBadges"></div>
             <div class="card-front-hint">
               <span class="tap-icon">👆</span> Tap to see the story
             </div>
@@ -1732,6 +2310,10 @@
             <button class="detail-action-btn" onclick="showQrForCurrent()">
               <span class="icon">📱</span>
               QR
+            </button>
+            <button class="detail-action-btn nfc-btn" onclick="writeNfcForCurrent()" id="detailNfcBtn">
+              <span class="icon">📡</span>
+              NFC
             </button>
             <button class="detail-action-btn" onclick="exportSingle()">
               <span class="icon">📤</span>
@@ -1823,23 +2405,23 @@
     </div>
   </div>
 
-  <!-- Scan Modal -->
-  <div class="modal-overlay" id="scanModal">
+  <!-- Code Lookup Modal -->
+  <div class="modal-overlay" id="codeLookupModal">
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
         <h3>Lookup by Code</h3>
-        <button class="modal-close" onclick="closeModal('scanModal')">×</button>
+        <button class="modal-close" onclick="closeModal('codeLookupModal')">×</button>
       </div>
       <div class="modal-body">
         <p style="margin-bottom: 1rem; color: var(--text-light);">
           Enter a keepsake code to view its story
         </p>
         <div class="field">
-          <input type="text" id="scanCodeInput" placeholder="Enter code (e.g., ABC123)" style="text-transform: uppercase; letter-spacing: 0.15em; text-align: center; font-size: 1.25rem;">
+          <input type="text" id="codeLookupInput" placeholder="Enter code (e.g., ABC123)" style="text-transform: uppercase; letter-spacing: 0.15em; text-align: center; font-size: 1.25rem;">
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeModal('scanModal')">Cancel</button>
+        <button class="btn btn-secondary" onclick="closeModal('codeLookupModal')">Cancel</button>
         <button class="btn btn-primary" onclick="lookupCode()">Find Keepsake</button>
       </div>
     </div>
@@ -1927,7 +2509,7 @@
        IndexedDB
        =========================== */
     const DB_NAME = 'KeepsakeStoriesDB';
-    const DB_VERSION = 1;
+    const DB_VERSION = 2;
     const STORE = 'keepsakes';
     let db = null;
 
@@ -1937,7 +2519,14 @@
         req.onupgradeneeded = e => {
           const d = e.target.result;
           if (!d.objectStoreNames.contains(STORE)) {
-            d.createObjectStore(STORE, { keyPath: 'code' });
+            const store = d.createObjectStore(STORE, { keyPath: 'code' });
+            store.createIndex('nfcId', 'nfcId', { unique: false });
+          } else {
+            const tx = e.target.transaction;
+            const store = tx.objectStore(STORE);
+            if (!store.indexNames.contains('nfcId')) {
+              store.createIndex('nfcId', 'nfcId', { unique: false });
+            }
           }
         };
         req.onsuccess = e => { db = e.target.result; resolve(db); };
@@ -1972,6 +2561,16 @@
       });
     }
 
+    function dbGetByNfc(nfcId) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readonly');
+        const index = tx.objectStore(STORE).index('nfcId');
+        const req = index.get(nfcId);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = e => reject(e.target.error);
+      });
+    }
+
     function dbDelete(code) {
       return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE, 'readwrite');
@@ -1985,9 +2584,12 @@
        State
        =========================== */
     let currentStep = 1;
+    const totalSteps = 4;
     let currentPhoto = null;
+    let currentPhotoFeatures = null;
     let currentAudioBlob = null;
     let currentVideoBlob = null;
+    let currentNfcId = null;
     let isRecordingAudio = false;
     let isRecordingVideo = false;
     let mediaRecorder = null;
@@ -2003,7 +2605,489 @@
     let cameraStream = null;
     let facingMode = 'environment';
     let pendingPinAction = null;
-    let detailVideoBlobUrl = null; // Track blob URL for cleanup
+    let detailVideoBlobUrl = null;
+    let nfcSupported = false;
+    let nfcReader = null;
+    let nfcAbortController = null;
+    let visualScanStream = null;
+    let nfcScanMode = null; // 'create', 'read', 'write'
+
+    /* ===========================
+       NFC Support
+       =========================== */
+    async function checkNfcSupport() {
+      if ('NDEFReader' in window) {
+        nfcSupported = true;
+        document.getElementById('nfcAvailability').textContent = 'Available';
+        document.getElementById('nfcAvailability').classList.add('available');
+      } else {
+        nfcSupported = false;
+        document.getElementById('nfcAvailability').textContent = 'Not supported';
+        document.getElementById('nfcAvailability').classList.add('unavailable');
+        document.getElementById('nfcFieldSection').style.display = 'none';
+      }
+    }
+
+    async function scanNfcForCreate() {
+      if (!nfcSupported) {
+        showToast('NFC not supported on this device', 'error');
+        return;
+      }
+
+      nfcScanMode = 'create';
+      
+      try {
+        nfcAbortController = new AbortController();
+        nfcReader = new NDEFReader();
+        
+        document.getElementById('nfcScanModal').classList.add('active');
+        document.querySelector('.nfc-scan-text').textContent = 'Ready to Scan';
+        document.querySelector('.nfc-scan-hint').textContent = 'Hold your phone near the NFC tag';
+        
+        await nfcReader.scan({ signal: nfcAbortController.signal });
+        
+        nfcReader.onreading = event => {
+          const serialNumber = event.serialNumber;
+          currentNfcId = serialNumber;
+          
+          document.getElementById('nfcStatusText').textContent = 'NFC tag linked!';
+          document.getElementById('nfcStatusHint').textContent = 'Tag will be associated with this keepsake';
+          document.getElementById('nfcIdDisplay').textContent = serialNumber;
+          document.getElementById('nfcIdDisplay').style.display = 'block';
+          document.getElementById('btnScanNfc').textContent = '📡 Change NFC Tag';
+          
+          closeNfcScan();
+          showToast('NFC tag linked successfully!', 'success');
+        };
+
+        nfcReader.onreadingerror = () => {
+          showToast('Error reading NFC tag', 'error');
+        };
+
+      } catch (err) {
+        console.error('NFC Error:', err);
+        if (err.name !== 'AbortError') {
+          showToast('NFC error: ' + err.message, 'error');
+        }
+        closeNfcScan();
+      }
+    }
+
+    async function startNfcScan() {
+      if (!nfcSupported) {
+        showToast('NFC not supported on this device', 'error');
+        return;
+      }
+
+      nfcScanMode = 'read';
+      
+      try {
+        nfcAbortController = new AbortController();
+        nfcReader = new NDEFReader();
+        
+        document.getElementById('nfcScanModal').classList.add('active');
+        document.querySelector('.nfc-scan-text').textContent = 'Scanning for NFC...';
+        document.querySelector('.nfc-scan-hint').textContent = 'Hold your phone near your keepsake\'s NFC tag';
+        
+        await nfcReader.scan({ signal: nfcAbortController.signal });
+        
+        nfcReader.onreading = async event => {
+          const serialNumber = event.serialNumber;
+          closeNfcScan();
+          
+          // Look up in database
+          const item = await dbGetByNfc(serialNumber);
+          if (item) {
+            openDetail(item.code);
+            showToast('Keepsake found!', 'success');
+          } else {
+            // Check if there's a record in the NFC message
+            for (const record of event.message.records) {
+              if (record.recordType === 'text') {
+                const textDecoder = new TextDecoder();
+                const code = textDecoder.decode(record.data);
+                const itemByCode = await dbGet(code);
+                if (itemByCode) {
+                  openDetail(code);
+                  showToast('Keepsake found!', 'success');
+                  return;
+                }
+              }
+            }
+            showToast('No keepsake found for this NFC tag', 'error');
+          }
+        };
+
+        nfcReader.onreadingerror = () => {
+          showToast('Error reading NFC tag', 'error');
+        };
+
+      } catch (err) {
+        console.error('NFC Error:', err);
+        if (err.name !== 'AbortError') {
+          showToast('NFC error: ' + err.message, 'error');
+        }
+        closeNfcScan();
+      }
+    }
+
+    async function writeNfcForCurrent() {
+      if (!nfcSupported) {
+        showToast('NFC not supported on this device', 'error');
+        return;
+      }
+
+      if (!currentKeepsake) return;
+
+      nfcScanMode = 'write';
+      
+      try {
+        nfcAbortController = new AbortController();
+        nfcReader = new NDEFReader();
+        
+        document.getElementById('nfcScanModal').classList.add('active');
+        document.querySelector('.nfc-scan-text').textContent = 'Ready to Write';
+        document.querySelector('.nfc-scan-hint').textContent = 'Hold your phone near an NFC tag to write the keepsake code';
+        
+        await nfcReader.scan({ signal: nfcAbortController.signal });
+        
+        nfcReader.onreading = async event => {
+          const serialNumber = event.serialNumber;
+          
+          try {
+            await nfcReader.write({
+              records: [{ recordType: 'text', data: currentKeepsake.code }]
+            });
+            
+            // Update the keepsake with NFC ID
+            currentKeepsake.nfcId = serialNumber;
+            await dbPut(currentKeepsake);
+            
+            closeNfcScan();
+            showToast('NFC tag written successfully!', 'success');
+            renderLibrary();
+          } catch (writeErr) {
+            showToast('Error writing to NFC tag', 'error');
+          }
+        };
+
+      } catch (err) {
+        console.error('NFC Error:', err);
+        if (err.name !== 'AbortError') {
+          showToast('NFC error: ' + err.message, 'error');
+        }
+        closeNfcScan();
+      }
+    }
+
+    function closeNfcScan() {
+      if (nfcAbortController) {
+        nfcAbortController.abort();
+        nfcAbortController = null;
+      }
+      document.getElementById('nfcScanModal').classList.remove('active');
+    }
+
+    /* ===========================
+       Visual Recognition
+       =========================== */
+    // Simple image feature extraction using color histogram and edge detection
+    function extractImageFeatures(imageData) {
+      const data = imageData.data;
+      const width = imageData.width;
+      const height = imageData.height;
+      
+      // Color histogram (simplified - 8 bins per channel)
+      const colorBins = 8;
+      const colorHist = new Array(colorBins * 3).fill(0);
+      
+      // Calculate average brightness and color distribution
+      let totalBrightness = 0;
+      const gridSize = 4;
+      const gridBrightness = new Array(gridSize * gridSize).fill(0);
+      
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const idx = (y * width + x) * 4;
+          const r = data[idx];
+          const g = data[idx + 1];
+          const b = data[idx + 2];
+          
+          // Color histogram
+          colorHist[Math.floor(r / 32)]++;
+          colorHist[colorBins + Math.floor(g / 32)]++;
+          colorHist[colorBins * 2 + Math.floor(b / 32)]++;
+          
+          // Brightness
+          const brightness = (r + g + b) / 3;
+          totalBrightness += brightness;
+          
+          // Grid-based brightness
+          const gridX = Math.floor(x / (width / gridSize));
+          const gridY = Math.floor(y / (height / gridSize));
+          const gridIdx = gridY * gridSize + gridX;
+          if (gridIdx < gridBrightness.length) {
+            gridBrightness[gridIdx] += brightness;
+          }
+        }
+      }
+      
+      // Normalize
+      const totalPixels = width * height;
+      const pixelsPerGrid = totalPixels / (gridSize * gridSize);
+      
+      for (let i = 0; i < colorHist.length; i++) {
+        colorHist[i] /= totalPixels;
+      }
+      
+      for (let i = 0; i < gridBrightness.length; i++) {
+        gridBrightness[i] /= pixelsPerGrid;
+      }
+      
+      // Simple edge detection (horizontal and vertical gradients)
+      let edgeScore = 0;
+      const sampleStep = 4;
+      for (let y = 1; y < height - 1; y += sampleStep) {
+        for (let x = 1; x < width - 1; x += sampleStep) {
+          const idx = (y * width + x) * 4;
+          const idxLeft = (y * width + (x - 1)) * 4;
+          const idxRight = (y * width + (x + 1)) * 4;
+          const idxUp = ((y - 1) * width + x) * 4;
+          const idxDown = ((y + 1) * width + x) * 4;
+          
+          const gx = Math.abs((data[idxRight] + data[idxRight + 1] + data[idxRight + 2]) -
+                              (data[idxLeft] + data[idxLeft + 1] + data[idxLeft + 2]));
+          const gy = Math.abs((data[idxDown] + data[idxDown + 1] + data[idxDown + 2]) -
+                              (data[idxUp] + data[idxUp + 1] + data[idxUp + 2]));
+          
+          edgeScore += Math.sqrt(gx * gx + gy * gy);
+        }
+      }
+      edgeScore /= (width * height / (sampleStep * sampleStep));
+      
+      // Dominant color
+      const colorCounts = {};
+      for (let y = 0; y < height; y += 5) {
+        for (let x = 0; x < width; x += 5) {
+          const idx = (y * width + x) * 4;
+          const r = Math.floor(data[idx] / 64) * 64;
+          const g = Math.floor(data[idx + 1] / 64) * 64;
+          const b = Math.floor(data[idx + 2] / 64) * 64;
+          const key = `${r},${g},${b}`;
+          colorCounts[key] = (colorCounts[key] || 0) + 1;
+        }
+      }
+      
+      let dominantColor = '0,0,0';
+      let maxCount = 0;
+      for (const [color, count] of Object.entries(colorCounts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          dominantColor = color;
+        }
+      }
+      
+      return {
+        colorHist,
+        gridBrightness,
+        avgBrightness: totalBrightness / totalPixels,
+        edgeScore,
+        dominantColor,
+        aspectRatio: width / height
+      };
+    }
+
+    function compareFeatures(f1, f2) {
+      if (!f1 || !f2) return 0;
+      
+      let score = 0;
+      let totalWeight = 0;
+      
+      // Color histogram similarity (weight: 30)
+      let colorSim = 0;
+      for (let i = 0; i < f1.colorHist.length; i++) {
+        colorSim += 1 - Math.abs(f1.colorHist[i] - f2.colorHist[i]);
+      }
+      colorSim /= f1.colorHist.length;
+      score += colorSim * 30;
+      totalWeight += 30;
+      
+      // Grid brightness similarity (weight: 25)
+      let gridSim = 0;
+      for (let i = 0; i < f1.gridBrightness.length; i++) {
+        const diff = Math.abs(f1.gridBrightness[i] - f2.gridBrightness[i]) / 255;
+        gridSim += 1 - diff;
+      }
+      gridSim /= f1.gridBrightness.length;
+      score += gridSim * 25;
+      totalWeight += 25;
+      
+      // Average brightness similarity (weight: 15)
+      const brightDiff = Math.abs(f1.avgBrightness - f2.avgBrightness) / 255;
+      score += (1 - brightDiff) * 15;
+      totalWeight += 15;
+      
+      // Edge score similarity (weight: 15)
+      const maxEdge = Math.max(f1.edgeScore, f2.edgeScore, 1);
+      const edgeDiff = Math.abs(f1.edgeScore - f2.edgeScore) / maxEdge;
+      score += (1 - edgeDiff) * 15;
+      totalWeight += 15;
+      
+      // Dominant color match (weight: 10)
+      if (f1.dominantColor === f2.dominantColor) {
+        score += 10;
+      } else {
+        const c1 = f1.dominantColor.split(',').map(Number);
+        const c2 = f2.dominantColor.split(',').map(Number);
+        const colorDist = Math.sqrt(
+          Math.pow(c1[0] - c2[0], 2) +
+          Math.pow(c1[1] - c2[1], 2) +
+          Math.pow(c1[2] - c2[2], 2)
+        );
+        score += Math.max(0, 10 - colorDist / 44); // Max distance ~442
+      }
+      totalWeight += 10;
+      
+      // Aspect ratio (weight: 5)
+      const aspectDiff = Math.abs(f1.aspectRatio - f2.aspectRatio);
+      score += Math.max(0, 5 - aspectDiff * 5);
+      totalWeight += 5;
+      
+      return (score / totalWeight) * 100;
+    }
+
+    function extractFeaturesFromBase64(base64) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const size = 100; // Small size for fast processing
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, size, size);
+          const imageData = ctx.getImageData(0, 0, size, size);
+          resolve(extractImageFeatures(imageData));
+        };
+        img.onerror = () => resolve(null);
+        img.src = base64;
+      });
+    }
+
+    async function startVisualScan() {
+      try {
+        visualScanStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+        
+        const videoEl = document.getElementById('visualScanVideo');
+        videoEl.srcObject = visualScanStream;
+        document.getElementById('visualScanModal').classList.add('active');
+      } catch (err) {
+        showToast('Could not access camera: ' + err.message, 'error');
+      }
+    }
+
+    function closeVisualScan() {
+      if (visualScanStream) {
+        visualScanStream.getTracks().forEach(track => track.stop());
+        visualScanStream = null;
+      }
+      document.getElementById('visualScanVideo').srcObject = null;
+      document.getElementById('visualScanModal').classList.remove('active');
+    }
+
+    async function captureForVisualMatch() {
+      const video = document.getElementById('visualScanVideo');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      
+      closeVisualScan();
+      
+      // Show matching overlay
+      document.getElementById('matchingOverlay').classList.add('active');
+      document.getElementById('matchingSpinner').style.display = 'block';
+      document.getElementById('matchingText').textContent = 'Analyzing image...';
+      document.getElementById('matchingResults').innerHTML = '';
+      
+      // Extract features from captured image
+      const capturedData = ctx.getImageData(0, 0, 100, 100);
+      const size = 100;
+      const resizedCanvas = document.createElement('canvas');
+      resizedCanvas.width = size;
+      resizedCanvas.height = size;
+      resizedCanvas.getContext('2d').drawImage(canvas, 0, 0, size, size);
+      const capturedFeatures = extractImageFeatures(
+        resizedCanvas.getContext('2d').getImageData(0, 0, size, size)
+      );
+      
+      // Get all items and compare
+      const items = await dbGetAll();
+      const matches = [];
+      
+      for (const item of items) {
+        if (item.photo && item.photoFeatures) {
+          const score = compareFeatures(capturedFeatures, item.photoFeatures);
+          if (score > 40) { // Threshold
+            matches.push({ item, score });
+          }
+        } else if (item.photo) {
+          // Extract features if not cached
+          const features = await extractFeaturesFromBase64(item.photo);
+          if (features) {
+            item.photoFeatures = features;
+            await dbPut(item);
+            const score = compareFeatures(capturedFeatures, features);
+            if (score > 40) {
+              matches.push({ item, score });
+            }
+          }
+        }
+      }
+      
+      // Sort by score
+      matches.sort((a, b) => b.score - a.score);
+      
+      // Show results
+      document.getElementById('matchingSpinner').style.display = 'none';
+      
+      if (matches.length === 0) {
+        document.getElementById('matchingText').textContent = 'No matches found';
+        document.getElementById('matchingResults').innerHTML = `
+          <div class="no-matches">
+            <div class="icon">🔍</div>
+            <p>We couldn't find a matching keepsake.<br>Try taking a clearer photo or adjusting the lighting.</p>
+          </div>
+        `;
+      } else {
+        document.getElementById('matchingText').textContent = `Found ${matches.length} possible match${matches.length > 1 ? 'es' : ''}`;
+        document.getElementById('matchingResults').innerHTML = matches.slice(0, 5).map(m => `
+          <div class="match-item" onclick="selectMatch('${m.item.code}')">
+            ${m.item.photo 
+              ? `<img src="${m.item.photo}" alt="${m.item.name}">`
+              : '<div class="no-img">📦</div>'}
+            <div class="info">
+              <h4>${m.item.name}</h4>
+              <p>${m.item.from ? 'From ' + m.item.from : ''} ${m.item.year || ''}</p>
+            </div>
+            <span class="match-score">${Math.round(m.score)}%</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function selectMatch(code) {
+      closeMatchingOverlay();
+      openDetail(code);
+    }
+
+    function closeMatchingOverlay() {
+      document.getElementById('matchingOverlay').classList.remove('active');
+    }
 
     /* ===========================
        Navigation
@@ -2036,7 +3120,34 @@
       });
 
       document.getElementById('btnPrev').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
-      document.getElementById('btnNext').textContent = currentStep === 3 ? '✓ Save Keepsake' : 'Next →';
+      document.getElementById('btnNext').textContent = currentStep === totalSteps ? '✓ Save Keepsake' : 'Next →';
+      
+      // Update review content on step 4
+      if (currentStep === 4) {
+        updateReview();
+      }
+    }
+
+    function updateReview() {
+      const name = document.getElementById('itemName').value.trim();
+      const year = document.getElementById('itemYear').value.trim();
+      const from = document.getElementById('itemFrom').value.trim();
+      const category = document.getElementById('itemCategory').value;
+      const speaker = document.getElementById('speakerName').value.trim();
+      
+      let html = '<div style="display: grid; gap: 0.75rem;">';
+      html += `<div><strong>Name:</strong> ${name || '-'}</div>`;
+      if (year) html += `<div><strong>Year:</strong> ${year}</div>`;
+      if (from) html += `<div><strong>From:</strong> ${from}</div>`;
+      if (category) html += `<div><strong>Category:</strong> ${category}</div>`;
+      if (speaker) html += `<div><strong>Narrator:</strong> ${speaker}</div>`;
+      html += `<div><strong>Photo:</strong> ${currentPhoto ? '✓ Added' : 'None'}</div>`;
+      html += `<div><strong>NFC:</strong> ${currentNfcId ? '✓ Linked' : 'None'}</div>`;
+      html += `<div><strong>Audio:</strong> ${currentAudioBlob ? '✓ Recorded' : 'None'}</div>`;
+      html += `<div><strong>Video:</strong> ${currentVideoBlob ? '✓ Recorded' : 'None'}</div>`;
+      html += '</div>';
+      
+      document.getElementById('reviewContent').innerHTML = html;
     }
 
     function getCreatePin() {
@@ -2061,7 +3172,7 @@
         }
       }
       
-      if (currentStep < 3) {
+      if (currentStep < totalSteps) {
         currentStep++;
         updateSteps();
       } else {
@@ -2150,7 +3261,7 @@
       }
     }
 
-    function capturePhoto() {
+    async function capturePhoto() {
       const video = document.getElementById('cameraVideo');
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -2158,6 +3269,16 @@
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0);
       currentPhoto = canvas.toDataURL('image/jpeg', 0.85);
+      
+      // Extract features for visual matching
+      const size = 100;
+      const featureCanvas = document.createElement('canvas');
+      featureCanvas.width = size;
+      featureCanvas.height = size;
+      featureCanvas.getContext('2d').drawImage(canvas, 0, 0, size, size);
+      currentPhotoFeatures = extractImageFeatures(
+        featureCanvas.getContext('2d').getImageData(0, 0, size, size)
+      );
       
       document.getElementById('photoPreview').src = currentPhoto;
       document.getElementById('photoPreviewContainer').classList.add('has-photo');
@@ -2176,22 +3297,26 @@
       document.getElementById('cameraModal').classList.remove('active');
     }
 
-    function handlePhotoUpload(event) {
+    async function handlePhotoUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = async function(e) {
         currentPhoto = e.target.result;
         document.getElementById('photoPreview').src = currentPhoto;
         document.getElementById('photoPreviewContainer').classList.add('has-photo');
         document.getElementById('photoOptions').style.display = 'none';
+        
+        // Extract features
+        currentPhotoFeatures = await extractFeaturesFromBase64(currentPhoto);
       };
       reader.readAsDataURL(file);
     }
 
     function clearPhoto() {
       currentPhoto = null;
+      currentPhotoFeatures = null;
       document.getElementById('photoPreview').src = '';
       document.getElementById('photoPreviewContainer').classList.remove('has-photo');
       document.getElementById('photoOptions').style.display = 'grid';
@@ -2266,9 +3391,7 @@
             audio: {
               echoCancellation: true,
               noiseSuppression: true,
-              autoGainControl: true,
-              sampleRate: 44100,
-              channelCount: 1
+              autoGainControl: true
             } 
           });
           recordedChunks = [];
@@ -2294,7 +3417,7 @@
             }
           }
           
-          const options = mimeType ? { mimeType, audioBitsPerSecond: 128000 } : {};
+          const options = mimeType ? { mimeType } : {};
           mediaRecorder = new MediaRecorder(mediaStream, options);
 
           mediaRecorder.ondataavailable = (e) => {
@@ -2364,11 +3487,7 @@
         try {
           mediaStream = await navigator.mediaDevices.getUserMedia({ 
             video: { width: { ideal: 1280 }, height: { ideal: 720 } },
-            audio: {
-              echoCancellation: true,
-              noiseSuppression: true,
-              sampleRate: 44100
-            }
+            audio: true
           });
           recordedChunks = [];
           
@@ -2386,7 +3505,7 @@
             }
           }
           
-          const options = mimeType ? { mimeType, videoBitsPerSecond: 2500000 } : {};
+          const options = mimeType ? { mimeType } : {};
           mediaRecorder = new MediaRecorder(mediaStream, options);
 
           mediaRecorder.ondataavailable = (e) => {
@@ -2446,7 +3565,6 @@
       });
     }
 
-    // Convert base64 data URL to Blob
     function base64ToBlob(base64) {
       try {
         const parts = base64.split(';base64,');
@@ -2507,8 +3625,10 @@
         note: document.getElementById('itemNote').value.trim(),
         speaker: document.getElementById('speakerName').value.trim(),
         photo: currentPhoto,
+        photoFeatures: currentPhotoFeatures,
         audio: audioData,
         video: videoData,
+        nfcId: currentNfcId,
         createdAt: new Date().toISOString()
       };
 
@@ -2534,6 +3654,11 @@
       for (let i = 0; i < 4; i++) {
         document.getElementById('createPin' + i).value = '';
       }
+      currentNfcId = null;
+      document.getElementById('nfcStatusText').textContent = 'No NFC tag linked';
+      document.getElementById('nfcStatusHint').textContent = 'Tap button below to scan an NFC tag';
+      document.getElementById('nfcIdDisplay').style.display = 'none';
+      document.getElementById('btnScanNfc').textContent = '📡 Scan NFC Tag';
       clearPhoto();
       clearAudio();
       clearVideo();
@@ -2550,6 +3675,7 @@
       const empty = document.getElementById('emptyState');
       
       document.getElementById('statTotal').textContent = items.length;
+      document.getElementById('statNfc').textContent = items.filter(i => i.nfcId).length;
       document.getElementById('statAudio').textContent = items.filter(i => i.audio).length;
       document.getElementById('statVideo').textContent = items.filter(i => i.video).length;
 
@@ -2572,8 +3698,9 @@
               ? `<img src="${item.photo}" alt="${item.name}" />`
               : '<span class="no-photo">📦</span>'}
             <div class="keepsake-badges">
-              ${item.audio ? '<span class="badge">🎤 Audio</span>' : ''}
-              ${item.video ? '<span class="badge">🎬 Video</span>' : ''}
+              ${item.nfcId ? '<span class="badge nfc">📡 NFC</span>' : ''}
+              ${item.audio ? '<span class="badge">🎤</span>' : ''}
+              ${item.video ? '<span class="badge">🎬</span>' : ''}
             </div>
           </div>
           <div class="keepsake-info">
@@ -2589,7 +3716,7 @@
     }
 
     /* ===========================
-       Detail Modal with Flip
+       Detail Modal
        =========================== */
     async function openDetail(code) {
       const item = await dbGet(code);
@@ -2600,16 +3727,13 @@
       
       currentKeepsake = item;
       
-      // Clean up previous blob URL
       if (detailVideoBlobUrl) {
         URL.revokeObjectURL(detailVideoBlobUrl);
         detailVideoBlobUrl = null;
       }
       
-      // Reset flip state
       document.getElementById('flipCard').classList.remove('flipped');
       
-      // Front of card - Photo
       const frontPhoto = document.getElementById('cardFrontPhoto');
       if (item.photo) {
         frontPhoto.innerHTML = `
@@ -2623,24 +3747,30 @@
         `;
       }
       
-      // Front of card - Info
       document.getElementById('cardFrontName').textContent = item.name;
       document.getElementById('cardFrontCode').textContent = item.code;
       
-      // Back of card - Details
+      // Badges
+      let badgesHtml = '';
+      if (item.nfcId) badgesHtml += '<span class="badge nfc">📡 NFC</span>';
+      if (item.audio) badgesHtml += '<span class="badge">🎤 Audio</span>';
+      if (item.video) badgesHtml += '<span class="badge">🎬 Video</span>';
+      document.getElementById('cardFrontBadges').innerHTML = badgesHtml;
+      
+      // Back - Details
       let rowsHtml = '';
       if (item.year) rowsHtml += `<div class="detail-row"><span class="label">Year</span><span class="value">${item.year}</span></div>`;
       if (item.from) rowsHtml += `<div class="detail-row"><span class="label">From</span><span class="value">${item.from}</span></div>`;
       if (item.category) rowsHtml += `<div class="detail-row"><span class="label">Category</span><span class="value">${item.category}</span></div>`;
       if (item.speaker) rowsHtml += `<div class="detail-row"><span class="label">Narrator</span><span class="value">${item.speaker}</span></div>`;
       if (item.note) rowsHtml += `<div class="detail-row"><span class="label">Note</span><span class="value">${item.note}</span></div>`;
+      if (item.nfcId) rowsHtml += `<div class="detail-row"><span class="label">NFC ID</span><span class="value" style="font-size: 0.7rem; word-break: break-all;">${item.nfcId}</span></div>`;
       document.getElementById('detailRows').innerHTML = rowsHtml;
       
-      // Audio - convert base64 to blob URL for better compatibility
+      // Audio
       const audioSection = document.getElementById('detailAudioSection');
       const audioEl = document.getElementById('detailAudio');
       if (item.audio) {
-        // For audio, base64 data URL usually works fine
         audioEl.src = item.audio;
         audioSection.style.display = 'block';
       } else {
@@ -2648,17 +3778,15 @@
         audioSection.style.display = 'none';
       }
       
-      // Video - convert base64 to blob URL for better playback
+      // Video
       const videoSection = document.getElementById('detailVideoSection');
       const videoEl = document.getElementById('detailVideo');
       if (item.video) {
-        // Convert base64 to blob for video (better browser compatibility)
         const videoBlob = base64ToBlob(item.video);
         if (videoBlob) {
           detailVideoBlobUrl = URL.createObjectURL(videoBlob);
           videoEl.src = detailVideoBlobUrl;
         } else {
-          // Fallback to direct base64
           videoEl.src = item.video;
         }
         videoSection.style.display = 'block';
@@ -2666,6 +3794,9 @@
         videoEl.src = '';
         videoSection.style.display = 'none';
       }
+      
+      // NFC button visibility
+      document.getElementById('detailNfcBtn').style.display = nfcSupported ? 'flex' : 'none';
       
       document.getElementById('detailOverlay').classList.add('active');
     }
@@ -2677,17 +3808,14 @@
     function closeDetail() {
       document.getElementById('detailOverlay').classList.remove('active');
       
-      // Stop and reset media
       const audioEl = document.getElementById('detailAudio');
       const videoEl = document.getElementById('detailVideo');
       
       audioEl.pause();
       audioEl.currentTime = 0;
-      
       videoEl.pause();
       videoEl.currentTime = 0;
       
-      // Reset flip after close animation
       setTimeout(() => {
         document.getElementById('flipCard').classList.remove('flipped');
       }, 400);
@@ -2697,6 +3825,30 @@
       if (currentKeepsake) {
         closeDetail();
         setTimeout(() => showQrModal(currentKeepsake.code), 300);
+      }
+    }
+
+    /* ===========================
+       Code Lookup
+       =========================== */
+    function openCodeLookup() {
+      document.getElementById('codeLookupInput').value = '';
+      openModal('codeLookupModal');
+    }
+
+    async function lookupCode() {
+      const code = document.getElementById('codeLookupInput').value.trim().toUpperCase();
+      if (!code) {
+        showToast('Please enter a code', 'error');
+        return;
+      }
+      
+      const item = await dbGet(code);
+      if (item) {
+        closeModal('codeLookupModal');
+        openDetail(code);
+      } else {
+        showToast('Keepsake not found', 'error');
       }
     }
 
@@ -2860,7 +4012,7 @@
         });
       } catch (err) {
         console.error('QR generation error:', err);
-        container.innerHTML = '<p style="color: red;">Error generating QR code. Make sure qrcode.min.js is in the same folder.</p>';
+        container.innerHTML = '<p style="color: red;">Error generating QR code.</p>';
       }
       
       openModal('qrModal');
@@ -2945,7 +4097,7 @@
         return;
       }
       
-      const headers = ['Code', 'Name', 'Year', 'From', 'Category', 'Speaker', 'Has Photo', 'Has Audio', 'Has Video', 'Created'];
+      const headers = ['Code', 'Name', 'Year', 'From', 'Category', 'Speaker', 'NFC', 'Has Photo', 'Has Audio', 'Has Video', 'Created'];
       const rows = items.map(i => [
         i.code,
         `"${(i.name || '').replace(/"/g, '""')}"`,
@@ -2953,6 +4105,7 @@
         `"${(i.from || '').replace(/"/g, '""')}"`,
         i.category || '',
         `"${(i.speaker || '').replace(/"/g, '""')}"`,
+        i.nfcId ? 'Yes' : 'No',
         i.photo ? 'Yes' : 'No',
         i.audio ? 'Yes' : 'No',
         i.video ? 'Yes' : 'No',
@@ -2997,37 +4150,13 @@
         }
         
         closeModal('importModal');
-        showToast(`Imported ${imported} keepsakes (default PIN: 0000)`, 'success');
+        showToast(`Imported ${imported} keepsakes`, 'success');
         renderLibrary();
       } catch (err) {
         showToast('Error importing: ' + err.message, 'error');
       }
       
       event.target.value = '';
-    }
-
-    /* ===========================
-       Scan Modal
-       =========================== */
-    function openScanModal() {
-      document.getElementById('scanCodeInput').value = '';
-      openModal('scanModal');
-    }
-
-    async function lookupCode() {
-      const code = document.getElementById('scanCodeInput').value.trim().toUpperCase();
-      if (!code) {
-        showToast('Please enter a code', 'error');
-        return;
-      }
-      
-      const item = await dbGet(code);
-      if (item) {
-        closeModal('scanModal');
-        openDetail(code);
-      } else {
-        showToast('Keepsake not found', 'error');
-      }
     }
 
     /* ===========================
@@ -3087,6 +4216,7 @@
       console.log('Database ready');
       setupPinInputs('createPin');
       setupPinInputs('verifyPin');
+      checkNfcSupport();
     }).catch(err => {
       console.error('Database error:', err);
     });
