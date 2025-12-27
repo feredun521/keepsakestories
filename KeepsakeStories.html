@@ -1,0 +1,2715 @@
+<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Keepsake Stories</title>
+  <script src="qrcode.min.js"></script>
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --accent-alt: #f5576c;
+      --success: #38d9a9;
+      --danger: #ff6b6b;
+      --warning: #ffd43b;
+      --dark: #1a1a2e;
+      --darker: #16162a;
+      --card: #ffffff;
+      --text: #2d3436;
+      --text-light: #636e72;
+      --border: #e2e8f0;
+      --glow: rgba(102, 126, 234, 0.4);
+      --glow-accent: rgba(240, 147, 251, 0.4);
+      --radius: 1.25rem;
+      --radius-sm: 0.75rem;
+    }
+    
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 50%, #0f0f1a 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Animated background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-animation .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s infinite ease-in-out;
+    }
+    .bg-animation .orb:nth-child(1) {
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+    .bg-animation .orb:nth-child(2) {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+      bottom: -100px;
+      right: -100px;
+      animation-delay: -5s;
+    }
+    .bg-animation .orb:nth-child(3) {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, var(--success), #20c997);
+      top: 50%;
+      left: 50%;
+      animation-delay: -10s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -50px) scale(1.1); }
+      50% { transform: translate(-30px, 30px) scale(0.95); }
+      75% { transform: translate(-50px, -30px) scale(1.05); }
+    }
+
+    /* Header */
+    header {
+      background: rgba(26, 26, 46, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 15px var(--glow);
+    }
+    .logo span {
+      background: linear-gradient(135deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    nav { display: flex; gap: 0.5rem; }
+    nav button {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      padding: 0.6rem 1.25rem;
+      border-radius: 2rem;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    nav button:hover { 
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    nav button.active { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 15px var(--glow);
+    }
+
+    /* Main layout */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      min-height: calc(100vh - 70px);
+    }
+
+    /* Pages */
+    .page { display: none; animation: fadeIn 0.5s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home page */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 2rem;
+      box-shadow: 0 10px 40px var(--glow), 0 0 60px var(--glow-accent);
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 10px 40px var(--glow), 0 0 60px var(--glow-accent); }
+      50% { box-shadow: 0 10px 60px var(--glow), 0 0 80px var(--glow-accent); }
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+    }
+    
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .feature-card .icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 0.95rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .feature-card p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 3rem;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .btn:hover::before { left: 100%; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: 0 4px 20px var(--glow);
+    }
+    .btn-primary:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 30px var(--glow);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover { 
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-3px);
+    }
+    .btn-sm { padding: 0.6rem 1.25rem; font-size: 0.9rem; }
+    .btn-danger { 
+      background: linear-gradient(135deg, var(--danger), #ee5a5a);
+      color: #fff;
+    }
+    .btn-success { 
+      background: linear-gradient(135deg, var(--success), #20c997);
+      color: #fff;
+    }
+
+    /* Create page */
+    .create-container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .page-header {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .page-header h2 {
+      font-size: 1.75rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+    }
+
+    /* Steps indicator */
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .step {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: all 0.4s;
+      position: relative;
+    }
+    .step.active { 
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      width: 36px;
+      border-radius: 6px;
+      box-shadow: 0 0 20px var(--glow-accent);
+    }
+    .step.done { 
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(56, 217, 169, 0.5);
+    }
+
+    /* Card form */
+    .form-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .form-step {
+      display: none;
+      padding: 2rem;
+      animation: slideIn 0.4s ease;
+    }
+    .form-step.active { display: block; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .form-step h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--dark);
+    }
+    .form-step > p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Form fields */
+    .field { margin-bottom: 1.25rem; }
+    .field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 1rem;
+      background: #fff;
+      color: var(--text);
+      transition: all 0.3s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--glow);
+    }
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 0.35rem;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Photo section */
+    .photo-section {
+      margin-bottom: 1rem;
+    }
+    .photo-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .photo-option {
+      padding: 1rem;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: #fafafa;
+    }
+    .photo-option:hover {
+      border-color: var(--primary);
+      background: #f0f0ff;
+    }
+    .photo-option .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .photo-option span {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+    .photo-option input { display: none; }
+    
+    .photo-preview-container {
+      display: none;
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .photo-preview-container.has-photo { display: block; }
+    .photo-preview-container img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    .photo-remove {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Camera modal */
+    .camera-modal {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+    }
+    .camera-modal.active { display: flex; }
+    .camera-header {
+      padding: 1rem;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .camera-header h3 {
+      color: #fff;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .camera-close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-video-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .camera-modal video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .camera-controls {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      background: rgba(0,0,0,0.9);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .camera-btn-capture {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .camera-btn-capture::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: #fff;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .camera-btn-capture:hover::after { background: var(--accent); }
+    .camera-btn-capture:active { transform: scale(0.95); }
+    .camera-btn-switch {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-btn-switch:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Recording section */
+    .record-section {
+      background: linear-gradient(135deg, #f8f9ff, #f0f4ff);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    .record-section h4 {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--dark);
+    }
+    .record-btns {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .record-btns button {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+    .btn-record-audio { 
+      background: linear-gradient(135deg, #38d9a9, #20c997);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(56, 217, 169, 0.3);
+    }
+    .btn-record-audio:hover { transform: translateY(-2px); }
+    .btn-record-audio.recording { 
+      background: linear-gradient(135deg, var(--danger), #ee5a5a);
+      animation: recording-pulse 1.5s infinite;
+    }
+    .btn-record-video { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: 0 4px 15px var(--glow);
+    }
+    .btn-record-video:hover { transform: translateY(-2px); }
+    .btn-record-video.recording { 
+      background: linear-gradient(135deg, var(--danger), #ee5a5a);
+      animation: recording-pulse 1.5s infinite;
+    }
+    @keyframes recording-pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+      50% { opacity: 0.9; box-shadow: 0 0 0 15px rgba(255, 107, 107, 0); }
+    }
+
+    /* Audio visualizer */
+    .visualizer-container {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+      border-radius: var(--radius-sm);
+      display: none;
+    }
+    .visualizer-container.active { display: block; }
+    .visualizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 60px;
+    }
+    .visualizer .bar {
+      width: 4px;
+      background: linear-gradient(to top, var(--primary), var(--accent));
+      border-radius: 2px;
+      transition: height 0.05s;
+    }
+    .recording-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+    .recording-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--danger);
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Video preview */
+    .video-preview {
+      margin-top: 1rem;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #1a1a1a;
+      display: none;
+    }
+    .video-preview.active { display: block; }
+    .video-preview video {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+
+    /* Playback */
+    .playback-container {
+      margin-top: 1rem;
+      display: none;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 2px solid var(--success);
+    }
+    .playback-container.active { display: block; }
+    .playback-container audio, .playback-container video {
+      width: 100%;
+      border-radius: var(--radius-sm);
+    }
+    .playback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .playback-header span {
+      font-size: 0.85rem;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+    }
+
+    /* Form navigation */
+    .form-nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      background: #f8f9fa;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Library page */
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .library-header h2 { 
+      font-size: 1.75rem;
+      color: #fff;
+    }
+    .library-header p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+    }
+    .library-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .library-stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1.25rem 1.75rem;
+      border-radius: var(--radius);
+      min-width: 120px;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Keepsake grid */
+    .keepsake-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .keepsake-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .keepsake-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .keepsake-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 30px var(--glow);
+    }
+    .keepsake-card:hover::before { opacity: 0.1; }
+    .keepsake-thumb {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #e0e5ec, #d0d5dc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .keepsake-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .keepsake-card:hover .keepsake-thumb img {
+      transform: scale(1.05);
+    }
+    .keepsake-thumb .no-photo {
+      font-size: 3.5rem;
+      opacity: 0.4;
+    }
+    .keepsake-badges {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      display: flex;
+      gap: 0.4rem;
+      z-index: 2;
+    }
+    .badge {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 0.3rem 0.6rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .keepsake-info {
+      padding: 1.25rem;
+      position: relative;
+      z-index: 2;
+    }
+    .keepsake-info h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--dark);
+    }
+    .keepsake-meta {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .keepsake-code {
+      font-family: 'SF Mono', Monaco, Consolas, monospace;
+      background: linear-gradient(135deg, #f0f0ff, #e8e8ff);
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .empty-state .icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.5;
+    }
+    .empty-state h3 {
+      color: #fff;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+    .empty-state p {
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Detail Modal with Flip Card */
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      padding: 1rem;
+      perspective: 1500px;
+    }
+    .detail-overlay.active { opacity: 1; pointer-events: auto; }
+    
+    .flip-card-container {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 3/4;
+      max-height: 85vh;
+      cursor: pointer;
+    }
+    
+    .flip-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .flip-card.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    
+    .flip-card-front {
+      background: linear-gradient(135deg, #fff, #f8f9ff);
+    }
+    
+    .flip-card-back {
+      background: #fff;
+      transform: rotateY(180deg);
+      overflow-y: auto;
+    }
+    
+    /* Front of card */
+    .card-front-photo {
+      height: 60%;
+      background: linear-gradient(135deg, #e0e5ec, #d0d5dc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-front-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-front-photo .no-photo {
+      font-size: 5rem;
+      opacity: 0.3;
+    }
+    .card-front-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .card-front-close:hover { background: rgba(0,0,0,0.7); }
+    
+    .card-front-info {
+      height: 40%;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .card-front-info h2 {
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    .card-front-code {
+      font-family: 'SF Mono', Monaco, Consolas, monospace;
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      background: linear-gradient(135deg, #f0f0ff, #e8e8ff);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      display: inline-block;
+      margin: 0.75rem auto;
+    }
+    .card-front-hint {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .tap-icon {
+      display: inline-block;
+      animation: tap-hint 1.5s infinite;
+    }
+    @keyframes tap-hint {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    
+    /* Back of card */
+    .card-back-header {
+      padding: 1.25rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-back-header h3 {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    .card-back-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back-close:hover { background: rgba(255,255,255,0.3); }
+    
+    .card-back-body {
+      padding: 1.25rem;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-row:last-child { border: none; }
+    .detail-row .label { 
+      color: var(--text-light); 
+      font-size: 0.85rem;
+    }
+    .detail-row .value { 
+      font-weight: 600; 
+      color: var(--dark);
+      text-align: right;
+      max-width: 60%;
+      font-size: 0.9rem;
+    }
+    
+    .detail-media {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .detail-media h4 {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .detail-media audio, .detail-media video {
+      width: 100%;
+      border-radius: var(--radius-sm);
+    }
+    
+    .card-back-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      padding: 1rem 1.25rem;
+      background: #f8f9fa;
+      border-top: 1px solid var(--border);
+    }
+    .detail-action-btn {
+      padding: 0.6rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      font: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .detail-action-btn:hover { 
+      background: #f0f0ff;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .detail-action-btn .icon { font-size: 1.25rem; }
+    .detail-action-btn.danger { color: var(--danger); }
+    .detail-action-btn.danger:hover { 
+      background: #fff0f0;
+      border-color: var(--danger);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      padding: 1rem;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      max-width: 450px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+      animation: modalIn 0.4s ease;
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.9) translateY(20px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 { font-size: 1.15rem; color: var(--dark); }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--danger); }
+    .modal-body { padding: 1.5rem; }
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    /* QR display */
+    .qr-display {
+      text-align: center;
+      padding: 1rem;
+    }
+    .qr-display #qrContainer {
+      display: inline-block;
+      background: #fff;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .qr-display #qrContainer canvas,
+    .qr-display #qrContainer img {
+      display: block;
+    }
+    .qr-code-value {
+      font-family: 'SF Mono', Monaco, Consolas, monospace;
+      font-size: 1.75rem;
+      letter-spacing: 0.2em;
+      margin: 1.25rem 0;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #f0f0ff, #e8e8ff);
+      border-radius: var(--radius-sm);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .qr-display > p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Export options */
+    .export-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .export-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .export-option:hover { 
+      border-color: var(--primary);
+      background: #f8f9ff;
+      transform: translateX(5px);
+    }
+    .export-option .icon {
+      font-size: 2rem;
+      width: 50px;
+      text-align: center;
+    }
+    .export-option .info h4 {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+      color: var(--dark);
+    }
+    .export-option .info p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin: 0;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--primary);
+      background: rgba(102, 126, 234, 0.05);
+    }
+    .drop-zone .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .drop-zone p { color: var(--text-light); font-size: 0.95rem; margin: 0; }
+    .drop-zone input { display: none; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, var(--dark), var(--darker));
+      color: #fff;
+      padding: 1rem 1.75rem;
+      border-radius: 3rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 500;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.success { background: linear-gradient(135deg, var(--success), #20c997); }
+    .toast.error { background: linear-gradient(135deg, var(--danger), #ee5a5a); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header { padding: 0.75rem 1rem; }
+      .logo { font-size: 1.1rem; }
+      .logo-icon { width: 36px; height: 36px; }
+      nav button { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+      main { padding: 1rem; }
+      .hero { padding: 2rem 0.5rem; }
+      .hero h1 { font-size: 1.75rem; }
+      .hero-icon { width: 80px; height: 80px; font-size: 2.5rem; }
+      .keepsake-grid { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
+      .card-back-actions { grid-template-columns: repeat(3, 1fr); }
+      .flip-card-container {
+        max-width: 340px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg-animation">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">✨</div>
+      <span>Keepsake Stories</span>
+    </div>
+    <nav>
+      <button id="navHome" class="active" onclick="showPage('home')">Home</button>
+      <button id="navCreate" onclick="showPage('create')">Create</button>
+      <button id="navLibrary" onclick="showPage('library')">Library</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home Page -->
+    <section id="pageHome" class="page active">
+      <div class="hero">
+        <div class="hero-icon">📦</div>
+        <h1>Stories behind the things you treasure</h1>
+        <p>Attach audio and video memories to your keepsakes. Scan a QR code years later to hear the story again.</p>
+        
+        <div class="hero-features">
+          <div class="feature-card">
+            <span class="icon">🎤</span>
+            <h3>Voice Stories</h3>
+            <p>Record in your own voice or a loved one's</p>
+          </div>
+          <div class="feature-card">
+            <span class="icon">🎬</span>
+            <h3>Video Memories</h3>
+            <p>Capture video clips to preserve moments</p>
+          </div>
+          <div class="feature-card">
+            <span class="icon">📱</span>
+            <h3>QR Codes</h3>
+            <p>Link each keepsake to a scannable code</p>
+          </div>
+          <div class="feature-card">
+            <span class="icon">💾</span>
+            <h3>Backup &amp; Share</h3>
+            <p>Export your collection to keep it safe</p>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="showPage('create')">
+            ✨ Create your first keepsake
+          </button>
+          <button class="btn btn-secondary" onclick="showPage('library')">
+            📚 View your library
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Create Page -->
+    <section id="pageCreate" class="page">
+      <div class="create-container">
+        <div class="page-header">
+          <h2>Create a Keepsake</h2>
+          <p>Capture the story behind something special</p>
+        </div>
+
+        <div class="steps">
+          <div class="step active" data-step="1"></div>
+          <div class="step" data-step="2"></div>
+          <div class="step" data-step="3"></div>
+        </div>
+
+        <div class="form-card">
+          <!-- Step 1: Basic Info -->
+          <div class="form-step active" data-step="1">
+            <h3>📝 Basic Information</h3>
+            <p>What is this keepsake and where did it come from?</p>
+
+            <div class="field">
+              <label for="itemName">What is it? *</label>
+              <input type="text" id="itemName" placeholder="e.g., Grandma's music box, Dad's watch">
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="itemYear">Year / Date</label>
+                <input type="text" id="itemYear" placeholder="e.g., 1985">
+              </div>
+              <div class="field">
+                <label for="itemFrom">From whom?</label>
+                <input type="text" id="itemFrom" placeholder="e.g., Grandma Rose">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="itemCategory">Category</label>
+              <select id="itemCategory">
+                <option value="">Select a category</option>
+                <option value="heirloom">Family Heirloom</option>
+                <option value="gift">Gift</option>
+                <option value="travel">Travel Souvenir</option>
+                <option value="holiday">Holiday Item</option>
+                <option value="art">Art / Craft</option>
+                <option value="jewelry">Jewelry</option>
+                <option value="photo">Photo / Album</option>
+                <option value="clothing">Clothing / Accessory</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="itemNote">Short note (optional)</label>
+              <textarea id="itemNote" rows="2" placeholder="Any quick notes about this item..."></textarea>
+            </div>
+          </div>
+
+          <!-- Step 2: Photo -->
+          <div class="form-step" data-step="2">
+            <h3>📷 Add a Photo</h3>
+            <p>Take a picture of your keepsake</p>
+
+            <div class="photo-section">
+              <div class="photo-options" id="photoOptions">
+                <div class="photo-option" onclick="openCamera()">
+                  <span class="icon">📸</span>
+                  <span>Take Photo</span>
+                </div>
+                <label class="photo-option">
+                  <input type="file" accept="image/*" onchange="handlePhotoUpload(event)">
+                  <span class="icon">🖼️</span>
+                  <span>Choose File</span>
+                </label>
+              </div>
+              
+              <div class="photo-preview-container" id="photoPreviewContainer">
+                <img id="photoPreview" alt="Keepsake photo">
+                <button class="photo-remove" onclick="clearPhoto()">×</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Story -->
+          <div class="form-step" data-step="3">
+            <h3>🎙️ Record the Story</h3>
+            <p>Capture the memory in your voice or on video</p>
+
+            <div class="field">
+              <label for="speakerName">Who is telling this story?</label>
+              <input type="text" id="speakerName" placeholder="e.g., Mom, Grandpa Joe, Me">
+              <div class="field-hint">Helps identify the voice years from now</div>
+            </div>
+
+            <div class="record-section">
+              <h4>🎤 Voice Recording</h4>
+              <div class="record-btns">
+                <button type="button" class="btn-record-audio" id="btnRecordAudio" onclick="toggleAudioRecording()">
+                  🎤 Record Audio
+                </button>
+              </div>
+              <div class="visualizer-container" id="audioVisualizerContainer">
+                <div class="visualizer" id="audioVisualizer"></div>
+                <div class="recording-status">
+                  <span class="recording-dot"></span>
+                  <span id="audioTimer">Recording... 0:00</span>
+                </div>
+              </div>
+              <div class="playback-container" id="audioPlayback">
+                <div class="playback-header">
+                  <span>✓ Audio recorded</span>
+                  <button class="btn btn-sm btn-secondary" onclick="clearAudio()">Remove</button>
+                </div>
+                <audio id="audioPlayer" controls=""></audio>
+              </div>
+            </div>
+
+            <div class="record-section">
+              <h4>🎬 Video Recording</h4>
+              <div class="record-btns">
+                <button type="button" class="btn-record-video" id="btnRecordVideo" onclick="toggleVideoRecording()">
+                  🎥 Record Video
+                </button>
+              </div>
+              <div class="video-preview" id="videoPreviewContainer">
+                <video id="videoPreviewLive" autoplay="" muted="" playsinline=""></video>
+              </div>
+              <div class="playback-container" id="videoPlayback">
+                <div class="playback-header">
+                  <span>✓ Video recorded</span>
+                  <button class="btn btn-sm btn-secondary" onclick="clearVideo()">Remove</button>
+                </div>
+                <video id="videoPlayer" controls="" playsinline=""></video>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Navigation -->
+          <div class="form-nav">
+            <button class="btn btn-secondary" id="btnPrev" onclick="prevStep()" style="visibility: hidden;">
+              ← Back
+            </button>
+            <button class="btn btn-primary" id="btnNext" onclick="nextStep()">
+              Next →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Library Page -->
+    <section id="pageLibrary" class="page">
+      <div class="library-header">
+        <div>
+          <h2>Your Library</h2>
+          <p>All your keepsake stories in one place</p>
+        </div>
+        <div class="library-actions">
+          <button class="btn btn-sm btn-secondary" onclick="openImportModal()">
+            📥 Import
+          </button>
+          <button class="btn btn-sm btn-secondary" onclick="openExportModal()">
+            📤 Export
+          </button>
+          <button class="btn btn-sm btn-secondary" onclick="openScanModal()">
+            🔍 Lookup
+          </button>
+        </div>
+      </div>
+
+      <div class="library-stats" id="libraryStats">
+        <div class="stat">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Keepsakes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="statAudio">0</div>
+          <div class="stat-label">With Audio</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="statVideo">0</div>
+          <div class="stat-label">With Video</div>
+        </div>
+      </div>
+
+      <div class="keepsake-grid" id="keepsakeGrid"></div>
+
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="icon">📦</div>
+        <h3>No keepsakes yet</h3>
+        <p>Start by creating your first keepsake story</p>
+        <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="showPage('create')">
+          ✨ Create one now
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Camera Modal -->
+  <div class="camera-modal" id="cameraModal">
+    <div class="camera-header">
+      <h3>📸 Take a Photo</h3>
+      <button class="camera-close-btn" onclick="closeCamera()">×</button>
+    </div>
+    <div class="camera-video-container">
+      <video id="cameraVideo" autoplay="" playsinline=""></video>
+    </div>
+    <div class="camera-controls">
+      <button class="camera-btn-switch" onclick="switchCamera()" title="Switch Camera">🔄</button>
+      <button class="camera-btn-capture" onclick="capturePhoto()" title="Take Photo"></button>
+      <div style="width: 50px;"></div>
+    </div>
+  </div>
+
+  <!-- Detail Modal with Flip Card -->
+  <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()">
+    <div class="flip-card-container" onclick="event.stopPropagation()">
+      <div class="flip-card" id="flipCard">
+        <!-- Front of Card -->
+        <div class="flip-card-front" onclick="flipCard()">
+          <div class="card-front-photo" id="cardFrontPhoto">
+            <button class="card-front-close" onclick="event.stopPropagation(); closeDetail()">×</button>
+            <span class="no-photo">📦</span>
+          </div>
+          <div class="card-front-info">
+            <h2 id="cardFrontName">Item Name</h2>
+            <div class="card-front-code" id="cardFrontCode">ABC123</div>
+            <div class="card-front-hint">
+              <span class="tap-icon">👆</span> Tap to see the story
+            </div>
+          </div>
+        </div>
+        
+        <!-- Back of Card -->
+        <div class="flip-card-back" onclick="event.stopPropagation()">
+          <div class="card-back-header">
+            <h3>📖 The Story</h3>
+            <button class="card-back-close" onclick="flipCard()">↩</button>
+          </div>
+          <div class="card-back-body">
+            <div id="detailRows"></div>
+            
+            <div class="detail-media" id="detailAudioSection" style="display: none;">
+              <h4>🎧 Listen</h4>
+              <audio id="detailAudio" controls=""></audio>
+            </div>
+            
+            <div class="detail-media" id="detailVideoSection" style="display: none;">
+              <h4>🎬 Watch</h4>
+              <video id="detailVideo" controls="" playsinline=""></video>
+            </div>
+          </div>
+          <div class="card-back-actions">
+            <button class="detail-action-btn" onclick="showQrForCurrent()">
+              <span class="icon">📱</span>
+              QR
+            </button>
+            <button class="detail-action-btn" onclick="exportSingle()">
+              <span class="icon">📤</span>
+              Export
+            </button>
+            <button class="detail-action-btn danger" onclick="deleteKeepsake()">
+              <span class="icon">🗑️</span>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Modal -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>QR Code</h3>
+        <button class="modal-close" onclick="closeModal('qrModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-display">
+          <div id="qrContainer"></div>
+          <div class="qr-code-value" id="qrCodeValue">ABC123</div>
+          <p>Print this QR code and attach it to your keepsake. Scan it anytime to hear the story.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="copyCode()">📋 Copy Code</button>
+        <button class="btn btn-primary" onclick="downloadQR()">📥 Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Export Your Library</h3>
+        <button class="modal-close" onclick="closeModal('exportModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1.25rem; color: var(--text-light);">
+          Download a backup of all your keepsakes including photos, audio, and video.
+        </p>
+        <div class="export-options">
+          <div class="export-option" onclick="exportAll()">
+            <div class="icon">📦</div>
+            <div class="info">
+              <h4>Full Backup (JSON)</h4>
+              <p>All data including media. Can be imported back later.</p>
+            </div>
+          </div>
+          <div class="export-option" onclick="exportList()">
+            <div class="icon">📄</div>
+            <div class="info">
+              <h4>List Only (CSV)</h4>
+              <p>Spreadsheet with names, codes, and details. No media.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Import Keepsakes</h3>
+        <button class="modal-close" onclick="closeModal('importModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1.25rem; color: var(--text-light);">
+          Restore from a backup file or import shared keepsakes.
+        </p>
+        <label class="drop-zone" id="importDropZone">
+          <input type="file" accept=".json" onchange="handleImport(event)">
+          <div class="icon">📥</div>
+          <p>Drop a .json backup file here or tap to browse</p>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scan Modal -->
+  <div class="modal-overlay" id="scanModal">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Lookup by Code</h3>
+        <button class="modal-close" onclick="closeModal('scanModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1rem; color: var(--text-light);">
+          Enter a keepsake code to view its story
+        </p>
+        <div class="field">
+          <input type="text" id="scanCodeInput" placeholder="Enter code (e.g., ABC123)" style="text-transform: uppercase; letter-spacing: 0.15em; text-align: center; font-size: 1.25rem;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('scanModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="lookupCode()">Find Keepsake</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ===========================
+       IndexedDB
+       =========================== */
+    const DB_NAME = 'KeepsakeStoriesDB';
+    const DB_VERSION = 1;
+    const STORE = 'keepsakes';
+    let db = null;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = e => {
+          const d = e.target.result;
+          if (!d.objectStoreNames.contains(STORE)) {
+            d.createObjectStore(STORE, { keyPath: 'code' });
+          }
+        };
+        req.onsuccess = e => { db = e.target.result; resolve(db); };
+        req.onerror = e => reject(e.target.error);
+      });
+    }
+
+    function dbPut(item) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).put(item);
+        tx.oncomplete = () => resolve();
+        tx.onerror = e => reject(e.target.error);
+      });
+    }
+
+    function dbGetAll() {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readonly');
+        const req = tx.objectStore(STORE).getAll();
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = e => reject(e.target.error);
+      });
+    }
+
+    function dbGet(code) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readonly');
+        const req = tx.objectStore(STORE).get(code);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = e => reject(e.target.error);
+      });
+    }
+
+    function dbDelete(code) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).delete(code);
+        tx.oncomplete = () => resolve();
+        tx.onerror = e => reject(e.target.error);
+      });
+    }
+
+    /* ===========================
+       State
+       =========================== */
+    let currentStep = 1;
+    let currentPhoto = null;
+    let currentAudioBlob = null;
+    let currentVideoBlob = null;
+    let isRecordingAudio = false;
+    let isRecordingVideo = false;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let mediaStream = null;
+    let audioContext = null;
+    let analyser = null;
+    let animationId = null;
+    let currentKeepsake = null;
+    let currentQRCode = null;
+    let recordingStartTime = null;
+    let timerInterval = null;
+    let cameraStream = null;
+    let facingMode = 'environment';
+
+    /* ===========================
+       Navigation
+       =========================== */
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById('page' + page.charAt(0).toUpperCase() + page.slice(1)).classList.add('active');
+      document.getElementById('nav' + page.charAt(0).toUpperCase() + page.slice(1)).classList.add('active');
+
+      if (page === 'library') renderLibrary();
+      if (page === 'create') resetForm();
+    }
+
+    /* ===========================
+       Form Steps
+       =========================== */
+    function updateSteps() {
+      document.querySelectorAll('.step').forEach(s => {
+        const step = parseInt(s.dataset.step);
+        s.classList.remove('active', 'done');
+        if (step === currentStep) s.classList.add('active');
+        else if (step < currentStep) s.classList.add('done');
+      });
+
+      document.querySelectorAll('.form-step').forEach(s => {
+        s.classList.remove('active');
+        if (parseInt(s.dataset.step) === currentStep) s.classList.add('active');
+      });
+
+      document.getElementById('btnPrev').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+      document.getElementById('btnNext').textContent = currentStep === 3 ? '✓ Save Keepsake' : 'Next →';
+    }
+
+    function nextStep() {
+      if (currentStep === 1) {
+        const name = document.getElementById('itemName').value.trim();
+        if (!name) {
+          showToast('Please enter a name for your keepsake', 'error');
+          return;
+        }
+      }
+      
+      if (currentStep < 3) {
+        currentStep++;
+        updateSteps();
+      } else {
+        saveKeepsake();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateSteps();
+      }
+    }
+
+    /* ===========================
+       Camera
+       =========================== */
+    async function openCamera() {
+      try {
+        const constraints = {
+          video: { 
+            facingMode: facingMode, 
+            width: { ideal: 1280 }, 
+            height: { ideal: 720 } 
+          },
+          audio: false
+        };
+        
+        cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+        const videoEl = document.getElementById('cameraVideo');
+        videoEl.srcObject = cameraStream;
+        document.getElementById('cameraModal').classList.add('active');
+      } catch (err) {
+        showToast('Could not access camera: ' + err.message, 'error');
+      }
+    }
+
+    async function switchCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+      facingMode = facingMode === 'environment' ? 'user' : 'environment';
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+        document.getElementById('cameraVideo').srcObject = cameraStream;
+      } catch (err) {
+        showToast('Could not switch camera', 'error');
+      }
+    }
+
+    function capturePhoto() {
+      const video = document.getElementById('cameraVideo');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      currentPhoto = canvas.toDataURL('image/jpeg', 0.85);
+      
+      document.getElementById('photoPreview').src = currentPhoto;
+      document.getElementById('photoPreviewContainer').classList.add('has-photo');
+      document.getElementById('photoOptions').style.display = 'none';
+      
+      closeCamera();
+      showToast('Photo captured!', 'success');
+    }
+
+    function closeCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+      document.getElementById('cameraVideo').srcObject = null;
+      document.getElementById('cameraModal').classList.remove('active');
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhoto = e.target.result;
+        document.getElementById('photoPreview').src = currentPhoto;
+        document.getElementById('photoPreviewContainer').classList.add('has-photo');
+        document.getElementById('photoOptions').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearPhoto() {
+      currentPhoto = null;
+      document.getElementById('photoPreview').src = '';
+      document.getElementById('photoPreviewContainer').classList.remove('has-photo');
+      document.getElementById('photoOptions').style.display = 'grid';
+    }
+
+    /* ===========================
+       Audio Recording
+       =========================== */
+    function createVisualizer() {
+      const visualizer = document.getElementById('audioVisualizer');
+      visualizer.innerHTML = '';
+      for (let i = 0; i < 50; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = '4px';
+        visualizer.appendChild(bar);
+      }
+    }
+
+    function startVisualization() {
+      const visualizer = document.getElementById('audioVisualizer');
+      const bars = visualizer.querySelectorAll('.bar');
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      function draw() {
+        animationId = requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+        
+        const step = Math.floor(bufferLength / bars.length);
+        bars.forEach((bar, i) => {
+          const value = dataArray[i * step];
+          const height = Math.max(4, (value / 255) * 60);
+          bar.style.height = height + 'px';
+        });
+      }
+      draw();
+    }
+
+    function stopVisualization() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+
+    function updateTimer() {
+      const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+      const mins = Math.floor(elapsed / 60);
+      const secs = elapsed % 60;
+      document.getElementById('audioTimer').textContent = 
+        `Recording... ${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    async function toggleAudioRecording() {
+      const btn = document.getElementById('btnRecordAudio');
+      const visualizerContainer = document.getElementById('audioVisualizerContainer');
+
+      if (isRecordingAudio) {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+        }
+        btn.innerHTML = '🎤 Record Audio';
+        btn.classList.remove('recording');
+        visualizerContainer.classList.remove('active');
+        stopVisualization();
+        clearInterval(timerInterval);
+        isRecordingAudio = false;
+      } else {
+        try {
+          mediaStream = await navigator.mediaDevices.getUserMedia({ 
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true,
+              sampleRate: 44100,
+              channelCount: 1
+            } 
+          });
+          recordedChunks = [];
+          
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const source = audioContext.createMediaStreamSource(mediaStream);
+          analyser = audioContext.createAnalyser();
+          analyser.fftSize = 256;
+          source.connect(analyser);
+          
+          createVisualizer();
+          visualizerContainer.classList.add('active');
+          startVisualization();
+          
+          let mimeType = 'audio/webm;codecs=opus';
+          if (!MediaRecorder.isTypeSupported(mimeType)) {
+            mimeType = 'audio/webm';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+              mimeType = 'audio/mp4';
+              if (!MediaRecorder.isTypeSupported(mimeType)) {
+                mimeType = '';
+              }
+            }
+          }
+          
+          const options = mimeType ? { mimeType, audioBitsPerSecond: 128000 } : {};
+          mediaRecorder = new MediaRecorder(mediaStream, options);
+
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+              recordedChunks.push(e.data);
+            }
+          };
+
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: mimeType || 'audio/webm' });
+            currentAudioBlob = blob;
+            
+            const audioUrl = URL.createObjectURL(blob);
+            document.getElementById('audioPlayer').src = audioUrl;
+            document.getElementById('audioPlayback').classList.add('active');
+            
+            if (mediaStream) {
+              mediaStream.getTracks().forEach(track => track.stop());
+              mediaStream = null;
+            }
+            if (audioContext) {
+              audioContext.close();
+              audioContext = null;
+            }
+          };
+
+          mediaRecorder.start(250);
+          
+          recordingStartTime = Date.now();
+          timerInterval = setInterval(updateTimer, 1000);
+          
+          btn.innerHTML = '⏹ Stop Recording';
+          btn.classList.add('recording');
+          isRecordingAudio = true;
+        } catch (err) {
+          showToast('Could not access microphone: ' + err.message, 'error');
+        }
+      }
+    }
+
+    function clearAudio() {
+      currentAudioBlob = null;
+      const player = document.getElementById('audioPlayer');
+      if (player.src) URL.revokeObjectURL(player.src);
+      player.src = '';
+      document.getElementById('audioPlayback').classList.remove('active');
+    }
+
+    /* ===========================
+       Video Recording
+       =========================== */
+    async function toggleVideoRecording() {
+      const btn = document.getElementById('btnRecordVideo');
+      const previewContainer = document.getElementById('videoPreviewContainer');
+      const previewVideo = document.getElementById('videoPreviewLive');
+
+      if (isRecordingVideo) {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+        }
+        btn.innerHTML = '🎥 Record Video';
+        btn.classList.remove('recording');
+        previewContainer.classList.remove('active');
+        previewVideo.srcObject = null;
+        isRecordingVideo = false;
+      } else {
+        try {
+          mediaStream = await navigator.mediaDevices.getUserMedia({ 
+            video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              sampleRate: 44100
+            }
+          });
+          recordedChunks = [];
+          
+          previewVideo.srcObject = mediaStream;
+          previewContainer.classList.add('active');
+          
+          let mimeType = 'video/webm;codecs=vp9,opus';
+          if (!MediaRecorder.isTypeSupported(mimeType)) {
+            mimeType = 'video/webm;codecs=vp8,opus';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+              mimeType = 'video/webm';
+              if (!MediaRecorder.isTypeSupported(mimeType)) {
+                mimeType = 'video/mp4';
+              }
+            }
+          }
+          
+          const options = mimeType ? { mimeType, videoBitsPerSecond: 2500000 } : {};
+          mediaRecorder = new MediaRecorder(mediaStream, options);
+
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+          };
+
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: mimeType || 'video/webm' });
+            currentVideoBlob = blob;
+            
+            const videoUrl = URL.createObjectURL(blob);
+            document.getElementById('videoPlayer').src = videoUrl;
+            document.getElementById('videoPlayback').classList.add('active');
+            
+            if (mediaStream) {
+              mediaStream.getTracks().forEach(track => track.stop());
+              mediaStream = null;
+            }
+          };
+
+          mediaRecorder.start(250);
+          btn.innerHTML = '⏹ Stop Recording';
+          btn.classList.add('recording');
+          isRecordingVideo = true;
+        } catch (err) {
+          showToast('Could not access camera: ' + err.message, 'error');
+        }
+      }
+    }
+
+    function clearVideo() {
+      currentVideoBlob = null;
+      const player = document.getElementById('videoPlayer');
+      if (player.src) URL.revokeObjectURL(player.src);
+      player.src = '';
+      document.getElementById('videoPlayback').classList.remove('active');
+    }
+
+    /* ===========================
+       Helpers
+       =========================== */
+    function generateCode() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return code;
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    /* ===========================
+       Save Keepsake
+       =========================== */
+    async function saveKeepsake() {
+      const name = document.getElementById('itemName').value.trim();
+      if (!name) {
+        showToast('Please enter a name', 'error');
+        return;
+      }
+
+      const code = generateCode();
+      
+      let audioData = null;
+      let videoData = null;
+      
+      if (currentAudioBlob) {
+        try { audioData = await blobToBase64(currentAudioBlob); } 
+        catch (e) { console.error('Audio conversion error:', e); }
+      }
+      
+      if (currentVideoBlob) {
+        try { videoData = await blobToBase64(currentVideoBlob); } 
+        catch (e) { console.error('Video conversion error:', e); }
+      }
+
+      const keepsake = {
+        code,
+        name,
+        year: document.getElementById('itemYear').value.trim(),
+        from: document.getElementById('itemFrom').value.trim(),
+        category: document.getElementById('itemCategory').value,
+        note: document.getElementById('itemNote').value.trim(),
+        speaker: document.getElementById('speakerName').value.trim(),
+        photo: currentPhoto,
+        audio: audioData,
+        video: videoData,
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        await dbPut(keepsake);
+        currentQRCode = code;
+        showToast('Keepsake saved!', 'success');
+        resetForm();
+        showQrModal(code);
+      } catch (err) {
+        showToast('Error saving: ' + err.message, 'error');
+      }
+    }
+
+    function resetForm() {
+      currentStep = 1;
+      document.getElementById('itemName').value = '';
+      document.getElementById('itemYear').value = '';
+      document.getElementById('itemFrom').value = '';
+      document.getElementById('itemCategory').value = '';
+      document.getElementById('itemNote').value = '';
+      document.getElementById('speakerName').value = '';
+      clearPhoto();
+      clearAudio();
+      clearVideo();
+      document.getElementById('photoOptions').style.display = 'grid';
+      updateSteps();
+    }
+
+    /* ===========================
+       Library
+       =========================== */
+    async function renderLibrary() {
+      const items = await dbGetAll();
+      const grid = document.getElementById('keepsakeGrid');
+      const empty = document.getElementById('emptyState');
+      
+      document.getElementById('statTotal').textContent = items.length;
+      document.getElementById('statAudio').textContent = items.filter(i => i.audio).length;
+      document.getElementById('statVideo').textContent = items.filter(i => i.video).length;
+
+      if (items.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        document.getElementById('libraryStats').style.display = 'none';
+        return;
+      }
+
+      empty.style.display = 'none';
+      document.getElementById('libraryStats').style.display = 'flex';
+      
+      items.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      
+      grid.innerHTML = items.map(item => `
+        <div class="keepsake-card" onclick="openDetail('${item.code}')">
+          <div class="keepsake-thumb">
+            ${item.photo 
+              ? `<img src="${item.photo}" alt="${item.name}" />`
+              : '<span class="no-photo">📦</span>'}
+            <div class="keepsake-badges">
+              ${item.audio ? '<span class="badge">🎤 Audio</span>' : ''}
+              ${item.video ? '<span class="badge">🎬 Video</span>' : ''}
+            </div>
+          </div>
+          <div class="keepsake-info">
+            <h3>${item.name}</h3>
+            <div class="keepsake-meta">
+              ${item.year ? `<span>${item.year}</span>` : ''}
+              ${item.from ? `<span>from ${item.from}</span>` : ''}
+              <span class="keepsake-code">${item.code}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ===========================
+       Detail Modal with Flip
+       =========================== */
+    async function openDetail(code) {
+      const item = await dbGet(code);
+      if (!item) {
+        showToast('Keepsake not found', 'error');
+        return;
+      }
+      
+      currentKeepsake = item;
+      
+      // Reset flip state
+      document.getElementById('flipCard').classList.remove('flipped');
+      
+      // Front of card - Photo
+      const frontPhoto = document.getElementById('cardFrontPhoto');
+      if (item.photo) {
+        frontPhoto.innerHTML = `
+          <button class="card-front-close" onclick="event.stopPropagation(); closeDetail()">×</button>
+          <img src="${item.photo}" alt="${item.name}" />
+        `;
+      } else {
+        frontPhoto.innerHTML = `
+          <button class="card-front-close" onclick="event.stopPropagation(); closeDetail()">×</button>
+          <span class="no-photo">📦</span>
+        `;
+      }
+      
+      // Front of card - Info
+      document.getElementById('cardFrontName').textContent = item.name;
+      document.getElementById('cardFrontCode').textContent = item.code;
+      
+      // Back of card - Details
+      let rowsHtml = '';
+      if (item.year) rowsHtml += `<div class="detail-row"><span class="label">Year</span><span class="value">${item.year}</span></div>`;
+      if (item.from) rowsHtml += `<div class="detail-row"><span class="label">From</span><span class="value">${item.from}</span></div>`;
+      if (item.category) rowsHtml += `<div class="detail-row"><span class="label">Category</span><span class="value">${item.category}</span></div>`;
+      if (item.speaker) rowsHtml += `<div class="detail-row"><span class="label">Narrator</span><span class="value">${item.speaker}</span></div>`;
+      if (item.note) rowsHtml += `<div class="detail-row"><span class="label">Note</span><span class="value">${item.note}</span></div>`;
+      document.getElementById('detailRows').innerHTML = rowsHtml;
+      
+      // Audio
+      const audioSection = document.getElementById('detailAudioSection');
+      const audioEl = document.getElementById('detailAudio');
+      if (item.audio) {
+        audioEl.src = item.audio;
+        audioSection.style.display = 'block';
+      } else {
+        audioEl.src = '';
+        audioSection.style.display = 'none';
+      }
+      
+      // Video
+      const videoSection = document.getElementById('detailVideoSection');
+      const videoEl = document.getElementById('detailVideo');
+      if (item.video) {
+        videoEl.src = item.video;
+        videoSection.style.display = 'block';
+      } else {
+        videoEl.src = '';
+        videoSection.style.display = 'none';
+      }
+      
+      document.getElementById('detailOverlay').classList.add('active');
+    }
+
+    function flipCard() {
+      document.getElementById('flipCard').classList.toggle('flipped');
+    }
+
+    function closeDetail() {
+      document.getElementById('detailOverlay').classList.remove('active');
+      document.getElementById('detailAudio').pause();
+      document.getElementById('detailVideo').pause();
+      // Reset flip after close animation
+      setTimeout(() => {
+        document.getElementById('flipCard').classList.remove('flipped');
+      }, 400);
+    }
+
+    function showQrForCurrent() {
+      if (currentKeepsake) {
+        closeDetail();
+        setTimeout(() => showQrModal(currentKeepsake.code), 300);
+      }
+    }
+
+    async function deleteKeepsake() {
+      if (!currentKeepsake) return;
+      if (!confirm('Delete this keepsake? This cannot be undone.')) return;
+      
+      try {
+        await dbDelete(currentKeepsake.code);
+        closeDetail();
+        showToast('Keepsake deleted', 'success');
+        renderLibrary();
+      } catch (err) {
+        showToast('Error deleting: ' + err.message, 'error');
+      }
+    }
+
+    async function exportSingle() {
+      if (!currentKeepsake) return;
+      
+      const data = JSON.stringify([currentKeepsake], null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `keepsake-${currentKeepsake.code}.json`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      showToast('Exported successfully', 'success');
+    }
+
+    /* ===========================
+       QR Code (Local library)
+       =========================== */
+    function showQrModal(code) {
+      currentQRCode = code;
+      document.getElementById('qrCodeValue').textContent = code;
+      
+      const container = document.getElementById('qrContainer');
+      container.innerHTML = '';
+      
+      // Use the local QRCode library
+      try {
+        new QRCode(container, {
+          text: code,
+          width: 200,
+          height: 200,
+          colorDark: '#1a1a2e',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } catch (err) {
+        console.error('QR generation error:', err);
+        container.innerHTML = '<p style="color: red;">Error generating QR code. Make sure qrcode.min.js is in the same folder.</p>';
+      }
+      
+      openModal('qrModal');
+    }
+
+    function copyCode() {
+      navigator.clipboard.writeText(currentQRCode).then(() => {
+        showToast('Code copied!', 'success');
+      });
+    }
+
+    function downloadQR() {
+      const container = document.getElementById('qrContainer');
+      const img = container.querySelector('img');
+      const canvas = container.querySelector('canvas');
+      
+      let dataUrl;
+      if (canvas) {
+        dataUrl = canvas.toDataURL('image/png');
+      } else if (img) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = img.width;
+        tempCanvas.height = img.height;
+        const ctx = tempCanvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        dataUrl = tempCanvas.toDataURL('image/png');
+      }
+      
+      if (dataUrl) {
+        const link = document.createElement('a');
+        link.download = 'keepsake-' + currentQRCode + '.png';
+        link.href = dataUrl;
+        link.click();
+        showToast('QR downloaded', 'success');
+      } else {
+        showToast('Could not download QR', 'error');
+      }
+    }
+
+    /* ===========================
+       Export / Import
+       =========================== */
+    function openExportModal() {
+      openModal('exportModal');
+    }
+
+    function openImportModal() {
+      openModal('importModal');
+    }
+
+    async function exportAll() {
+      const items = await dbGetAll();
+      if (items.length === 0) {
+        showToast('No keepsakes to export', 'error');
+        return;
+      }
+      
+      const data = JSON.stringify(items, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `keepsake-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      closeModal('exportModal');
+      showToast(`Exported ${items.length} keepsakes`, 'success');
+    }
+
+    async function exportList() {
+      const items = await dbGetAll();
+      if (items.length === 0) {
+        showToast('No keepsakes to export', 'error');
+        return;
+      }
+      
+      const headers = ['Code', 'Name', 'Year', 'From', 'Category', 'Speaker', 'Has Photo', 'Has Audio', 'Has Video', 'Created'];
+      const rows = items.map(i => [
+        i.code,
+        `"${(i.name || '').replace(/"/g, '""')}"`,
+        i.year || '',
+        `"${(i.from || '').replace(/"/g, '""')}"`,
+        i.category || '',
+        `"${(i.speaker || '').replace(/"/g, '""')}"`,
+        i.photo ? 'Yes' : 'No',
+        i.audio ? 'Yes' : 'No',
+        i.video ? 'Yes' : 'No',
+        i.createdAt || ''
+      ].join(','));
+      
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `keepsake-list-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      closeModal('exportModal');
+      showToast(`Exported ${items.length} keepsakes`, 'success');
+    }
+
+    async function handleImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      try {
+        const text = await file.text();
+        const items = JSON.parse(text);
+        
+        if (!Array.isArray(items)) {
+          throw new Error('Invalid format');
+        }
+        
+        let imported = 0;
+        for (const item of items) {
+          if (item.code && item.name) {
+            await dbPut(item);
+            imported++;
+          }
+        }
+        
+        closeModal('importModal');
+        showToast(`Imported ${imported} keepsakes`, 'success');
+        renderLibrary();
+      } catch (err) {
+        showToast('Error importing: ' + err.message, 'error');
+      }
+      
+      event.target.value = '';
+    }
+
+    /* ===========================
+       Scan Modal
+       =========================== */
+    function openScanModal() {
+      document.getElementById('scanCodeInput').value = '';
+      openModal('scanModal');
+    }
+
+    async function lookupCode() {
+      const code = document.getElementById('scanCodeInput').value.trim().toUpperCase();
+      if (!code) {
+        showToast('Please enter a code', 'error');
+        return;
+      }
+      
+      const item = await dbGet(code);
+      if (item) {
+        closeModal('scanModal');
+        openDetail(code);
+      } else {
+        showToast('Keepsake not found', 'error');
+      }
+    }
+
+    /* ===========================
+       Modal Helpers
+       =========================== */
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    /* ===========================
+       Toast
+       =========================== */
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    /* ===========================
+       Drop zone
+       =========================== */
+    const dropZone = document.getElementById('importDropZone');
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.name.endsWith('.json')) {
+        handleImport({ target: { files: [file], value: '' } });
+      }
+    });
+
+    /* ===========================
+       Initialize
+       =========================== */
+    openDB().then(() => {
+      console.log('Database ready');
+    }).catch(err => {
+      console.error('Database error:', err);
+    });
+  </script>
+
+
+</body></html>
